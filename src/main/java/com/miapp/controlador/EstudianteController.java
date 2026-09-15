@@ -22,7 +22,7 @@ public class EstudianteController {
     private EstudianteView vista;
 
     // ── Array de estudiantes (fuente de datos) ────────────────────────────────
-    private Estudiante[] estudiantes;
+    private ArrayList<Estudiante> estudiantes;
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
@@ -39,7 +39,7 @@ public class EstudianteController {
      * En un proyecto real este array vendría de una base de datos o servicio.
      */
     private void cargarDatos() {
-        estudiantes = new Estudiante[] {
+        estudiantes = new ArrayList<> (List.of(
             new Estudiante(1,  "Ana García",        "Ingeniería de Sistemas",  4.5),
             new Estudiante(2,  "Carlos López",      "Ingeniería Civil",        3.8),
             new Estudiante(3,  "María Rodríguez",   "Medicina",                4.9),
@@ -52,7 +52,7 @@ public class EstudianteController {
             new Estudiante(10, "Juliana Morales",   "Medicina",                4.8),
             new Estudiante(11, "Ana Milena Ruiz",   "Derecho",                 4.0),
             new Estudiante(12, "Carlos Andrés Paz", "Administración",          3.6)
-        };
+        ));
     }
 
     // ── Lógica de búsqueda ────────────────────────────────────────────────────
