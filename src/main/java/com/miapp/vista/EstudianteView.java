@@ -53,7 +53,7 @@ public class EstudianteView extends JFrame {
         txtNombre = new JTextField(25);
         btnBuscar = new JButton("Buscar");
         btnBuscar.setBackground(new Color(59, 139, 212));
-        btnBuscar.setForeground(Color.WHITE);
+        btnBuscar.setForeground(Color.GREEN);
         btnBuscar.setFocusPainted(false);
 
         panelBusqueda.add(lblNombre);
