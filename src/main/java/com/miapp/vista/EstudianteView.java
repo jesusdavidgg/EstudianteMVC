@@ -59,8 +59,13 @@ public class EstudianteView extends JFrame {
         panelBusqueda.add(lblNombre);
         panelBusqueda.add(txtNombre);
         panelBusqueda.add(btnBuscar);
+        
+        //Panel Central -- Añadir estudiante
+        JPanel panelagregar = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        panelagregar.setBorder(BorderFactory.createTitledBorder("Agregar estudiante"));
+        
 
-        // Panel central — tabla de resultados
+        // Panel inferior — tabla de resultados
         String[] columnas = {"ID", "Nombre", "Carrera", "Promedio"};
         modeloTabla = new DefaultTableModel(columnas, 0) {
             @Override
