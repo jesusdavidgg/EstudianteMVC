@@ -4,6 +4,7 @@ import com.miapp.modelo.Estudiante;
 import com.miapp.vista.EstudianteView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -23,6 +24,12 @@ public class EstudianteController {
 
     // ── Array de estudiantes (fuente de datos) ────────────────────────────────
     private ArrayList<Estudiante> estudiantes;
+    
+    //---------
+    private List<Estudiante> ultimosResultados;
+    
+    //---ordenar
+    private boolean ordenAscendente=true;
 
     // ── Constructor ───────────────────────────────────────────────────────────
 
@@ -80,7 +87,12 @@ public class EstudianteController {
                 resultados.add(e);
             }
         }
-
+        
+        //ordenar---
+        ultimosResultados=resultados;
+        ordenAscendente=true;
+        
+        
         if (resultados.isEmpty()) {
             vista.mostrarEstudiantes(new ArrayList<>()); // mostrará mensaje vacío
         } else if (resultados.size() == 1) {
@@ -118,6 +130,84 @@ public class EstudianteController {
         }
         return filas;
     }
+    public void agregarEstudiante(String nombre, String carrera, double promedio) {
 
-   
+        
+        if (nombre == null || nombre.isEmpty()) {
+            vista.mostrarError("El nombre no puede estar vacío.");
+            return;
+        }
+        if (carrera == null || carrera.isEmpty()) {
+            vista.mostrarError("La carrera no puede estar vacía.");
+            return;
+        }
+
+        
+        if (promedio < 0.0 || promedio > 5.0) {
+            vista.mostrarError("El promedio debe estar entre 0.0 y 5.0.");
+            return;
+        }
+
+        
+        int nuevoId = generarSiguienteId();
+
+        Estudiante nuevo = new Estudiante(nuevoId, nombre, carrera, promedio);
+        estudiantes.add(nuevo);
+
+        
+        ultimosResultados = new ArrayList<>(estudiantes);
+        ordenAscendente = true;
+
+        vista.mostrarEstudiantes(convertirAFilas(ultimosResultados));
+        vista.mostrarConfirmacion("Estudiante \"" + nombre + "\" agregado correctamente (ID: " + nuevoId + ").");
+    }
+
+    
+    private int generarSiguienteId() {
+        int maxId = 0;
+        for (Estudiante e : estudiantes) {
+            if (e.getId() > maxId) {
+                maxId = e.getId();
+            }
+        }
+        return maxId + 1;
+    }
+
+    // ── mostrar todos los estudiantes ------
+
+    public void mostrarTodos() {
+        ultimosResultados = new ArrayList<>(estudiantes);
+        ordenAscendente = true;
+        vista.mostrarEstudiantes(convertirAFilas(ultimosResultados));
+    }
+
+    // ──ordenar resultados por criterio ──────────────────────────
+
+    
+    public void ordenarPor(String criterio) {
+
+        if (ultimosResultados == null || ultimosResultados.isEmpty()) {
+            vista.mostrarError("No hay resultados para ordenar. Realice una búsqueda o presione \"Mostrar todos\" primero.");
+            return;
+        }
+
+        Comparator<Estudiante> comparador;
+        if ("Promedio".equalsIgnoreCase(criterio)) {
+            comparador = Comparator.comparingDouble(Estudiante::getPromedio);
+        } else {
+            
+            comparador = Comparator.comparing(Estudiante::getNombre, String.CASE_INSENSITIVE_ORDER);
+        }
+
+        if (!ordenAscendente) {
+            comparador = comparador.reversed();
+        }
+
+        ultimosResultados.sort(comparador);
+
+      
+        ordenAscendente = !ordenAscendente;
+
+        vista.mostrarEstudiantes(convertirAFilas(ultimosResultados));
+    }
 }
