@@ -54,7 +54,7 @@ public class EstudianteView extends JFrame {
     private void initComponentes() {
         setTitle("Búsqueda de Estudiantes — MVC NetBeans");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(700, 450);
+        setSize(950, 600);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
